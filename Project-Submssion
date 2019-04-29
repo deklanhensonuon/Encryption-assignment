@@ -1,0 +1,310 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/*Program flow is controlled depending on what task the user wants to see. The switch statements at the start are used to control whether or not the following lines will be executed.
+depending on whether or not the user wants to see the ciphers or not. this is why there are break statements. so lines are not executed after the command. Further once the user has 
+chasen a task the compiler will execute the printf statements and when the function is called, the flow control will jump to the function definition and then back once there is a return value.*/ 
+char RotA(char *sentence) ; //The function prototype for task 1
+char RotB(char *sentence) ; //The function prototype for task 2
+void subA(char *, char*) ; //The function prototype for task 3
+void subB(char *, char*) ; //The function prototype for task 4  
+char RotC(char *sentence) ; // The function prototype for task 5 
+char RotD(char *sentence) ; // the function prototype to find the rotated versions of "THE"
+int main() 
+{
+    int firstresult; // uinitialised variable so the marker can deside between substitution and rotational ciphers in the first switch statement
+    int secondresult; // uninitialsed variable so the marker can decide between decryption and encryption in the second switch statement  
+   
+   
+    printf("Hey, this is Deklans Encryption assignment please press (1) for the Rotational Cipher or (2) for the Substitutional Cipher\n") ;  
+    scanf("%d", &firstresult) ;
+    
+    switch(firstresult) //using a switch statement to allow the marker to decide between rotational and substitution ciphers
+    { 
+        case 1:
+        printf("Rotational Cipher, would you like the encryption (1) or decryption (2) or Blackboard rotational cipher? (3) or the rotated 'THE' program (5) \n");
+        scanf("%d", &secondresult) ; break ; //this line will implement the number the marker chooses so that it will compile to the next switch statement, a break is used so the program will not compile the substitutional cipher if it is not chosen. 
+        
+        case 2:
+        printf("Substitutional Cipher, would you like the encryption (3) or decryption (4)\n");
+        scanf("%d", &secondresult) ; break ; //see comment above
+                  
+       
+        default:
+        printf("Error please re compile code\n"); break; // this default line is used so there is an error if the cases are not chosen.
+        
+    }
+                        
+    switch(secondresult) //switch statement so the marker can decide what task to execute. 
+        {
+        case 1://task 1
+        printf("Good work, this is the encryption of the rotational cypher:\n");// allows the user to know that they have chosen the rotational cipher
+        char sentenceT1[]={"HELLO MY NAME IS DEKLAN"}; // sentence to be encrypted
+        int keyTT1=2; // user friendly key to allow the user to know how many shifts the sentence will rotate by. 
+        printf("%s\n", sentenceT1) ; // this line will print the original sentence before it is encrypted/decrypted
+        RotA(sentenceT1); //passes the sentenceT1 (Task 1) into the function command
+        printf("The rotational key is %d", keyTT1); // prints the key so the user knows how many letters the sentence is rotated by
+        break; // break statements are used so the program does not compile code and interupts flow 
+        
+        // the comments for the first task have a respective trend with the following tasks bellow 
+         
+        case 2:
+        printf("Good work, this is the decryption of the rotational cypher:\n "); // task 2
+        char sentenceT2[]={"JGNNQ OA PCOG KU FGMNCP"};  
+        int keyTT2=2;
+        printf("%s\n", sentenceT2);  
+        RotB(sentenceT2); 
+        printf("The rotational key is %d", keyTT2) ; 
+        break;
+        
+        case 3: 
+        printf("Good work, this is the encryption of the substitutional cypher:\n "); // task 3
+        char sentenceT3[]={ "HELLO" };
+        char keyT3[26] = {"QWERTYUIOPASDFGHJKLZXCVBNM"}; 
+        printf("%s\n", sentenceT3);
+        subA (sentenceT3, keyT3);
+        break;
+        
+        case 4:
+        printf("Good work, this is the decryption of the substitutional cypher:\n "); // task 4
+        char sentenceT4[]={"OYDDH"}; 
+        char keyT4[26]={"QWERTYUIOPASDFGHJKLZXCVBNM"} ;
+        printf("%s\n", sentenceT4); 
+        subB(sentenceT4, keyT4); 
+        
+        break; 
+        case 5:
+        printf("Good work, this is the decryption of the seen rotation text:\n"); //task 5
+        char sentenceT5[]={" TVU TVAOTH: AOL KHAH IYVBNOA AV BZ IF AOL IVAOHU ZWPLZ WPUWVPUAZ AOL LEHJA SVJHAPVU VM AOL LTWLYVY'Z ULD IHAASL ZAHAPVU. DL HSZV RUVD AOHA AOL DLHWVU ZFZALTZ VM AOPZ KLHAO ZAHY HYL UVA FLA VWLYHAPVUHS. DPAO AOL PTWLYPHS MSLLA ZWYLHK AOYVBNOVBA AOL NHSHEF PU H CHPU LMMVYA AV LUNHNL BZ, PA PZ YLSHAPCLSF BUWYVALJALK. IBA TVZA PTWVYAHUA VM HSS, DL'CL SLHYULK AOHA AOL LTWLYVY OPTZLSM PZ WLYZVUHSSF VCLYZLLPUN AOL MPUHS ZAHNLZ VM AOL JVUZAYBJAPVU VM AOPZ KLHAO ZAHY. THUF IVAOHUZ KPLK AV IYPUN BZ AOPZ PUMVYTHAPVU."} ; 
+        RotC(sentenceT5);
+        
+
+        break; 
+        case 6: 
+        printf("This is the rotated words for 'the'\n");// this task was done in a rush due to late notice
+        char sentenceT6[]={"THE"}; 
+        RotD(sentenceT6) ;  
+        break;
+        
+        default: // a default key is used to restrict the user to using the cases provided
+        return 0 ; 
+        break; 
+        
+       // this is the end of main, comments bellow will be discussing the functions
+        }
+}
+char RotA(char *sentenceT1) /* This function is used to complete task 1 ||| This function encrypts a sentence or word along the alphabet with a given key
+This function returns the encrypted sentence of "HELLO MY NAME IS DEKLAN"
+This function inputs the sentence array "HELLO MY NAME IS DEKLAN".
+  This function does have limitations as the sizeof function does not translate through fcunctions and therefore the characters must be counted so the rotation cipher rotates the correct amount of characters on the array.*/  
+
+{
+    
+int i=0, keyT1=2; // i is initialised as a counter for the array elements and the key is initialised to rotate the characters in the sentence 
+
+   for(i=0 ; i<23 ; i++) //the i<23 signifies the amount of characters in the array. allowing i to stop at the last character
+     {
+         if(sentenceT1[i]==32) // this is used to stop spaces from rotating
+         {
+             
+         }
+         
+             else if (sentenceT1[i]+keyT1>'Z') // this if statement is implemented so that if the sentence is close to exceeding the alphabet it will loop back 
+             {
+             sentenceT1[i]= sentenceT1[i]+keyT1-26 ; // -26 is because of the ascii code and the number of letters in the alphabet
+              
+             }
+         
+                else
+                {
+            sentenceT1[i] = (sentenceT1[i] + keyT1); // this allows the characters to rotate for each incriment of i
+                }
+         
+         
+     }
+    printf("%s\n", sentenceT1) ; // prints the encrypted sentence. it is outside the for statement so it does not print the first character of each increments of i.
+ 
+
+return *sentenceT1; // returns the sentence value to teh main function. This is a pointer to reserve memory.
+}
+
+char RotB(char *sentenceT2) /* this function does task 2 ||| This function rotates and decrypts a given hard coded sentence along the alphabet with a given rotational key.
+This function returns the derypted sentence of "HELLO MY NAME IS DEKLAN"
+The input is the rotated version of "HELLO MY NAME IS DEKLAN" or "JGNNQ OA PCOG KU FGMNCP"
+This function does have limitations as the sizeof function does not translate through fcunctions and therefore the characters must be counted so the rotation cipher rotates the correct amount of characters se*/  
+{
+int keyT2=24; // The rotational key is greater  in the decryption function as the rotation must go around each letter of the alphabet
+int i=0;
+//int n=sizeof(sentence) - 1 ; //this was a failed use of initialising a varaible that would keep track of an array size. so the user doesnt have to manually count and change the amount of increments i does
+for (i=0 ; i<23 ; i++)
+     {
+         if(sentenceT2[i]==32) // 32= to the space character key in ascii 
+         {
+             
+         }
+         
+         else if(sentenceT2[i]+keyT2>'Z') // if the rotation is greater then the amount of characters in the alphabet it will loop round
+          {
+             sentenceT2[i]= sentenceT2[i]+keyT2-26 ; 
+              
+          }
+        else 
+            {
+            sentenceT2[i] = sentenceT2[i] + keyT2; // allowing the sentence to be the rotated character for every icremenmt of i
+            }
+         
+         
+     }
+    printf("%s\n", sentenceT2) ; // printing the rotated sentence, this is why the printing type is %s and not %c.
+ 
+ return *sentenceT2; // returning the sentence to main
+}
+    
+
+    
+    
+
+void subA(char *sentenceT3, char *keyT3) /*substitutional cipher function for task 3 ||| This function encrypts a message along the alphabet into the QWERTY string. 
+This function returns the encrypted sentence eg from "HELLO" to "ODDYH"
+The nput in this function is the "HELLO" array
+There is no limitations to this function for as far as it has been used */
+{
+
+  int i = 0, m = 0; // for the substitutional cipher, 2 counters are needed as there are two unique arrays 
+
+  for(i = 0; sentenceT3[i] != 0; i++) //sentenceT3[i]!=0 is a case that is checked every iteration of i so that the substitution is valid.
+  {
+
+      if(sentenceT3[i] == 32) 
+	{
+
+	}
+
+      if(sentenceT3[i] >= 65 && sentenceT3[i] <= 90) // this if statemente is controlling the substitution so that it only substitutes elements that are in the alphabet. A= 65 and Z= 90 in ascii
+       {
+
+	  m = sentenceT3[i] - 65; // m is the counter variable for the key array. This code is allowing the key to equal the exact array element on the alphabet key. allowing the key to be substituted 
+	  printf ("%c", keyT3[m]);// this prints the iteration of the array element in the substitution. allowing the substitutrion to work.
+
+	   }
+      else
+	     {
+
+	  printf("%c", sentenceT3[i]); // this prints the original sentence so you can compare the two strtings 
+	     }
+  }
+
+}
+
+void subB(char *sentenceT4, char *keyT4) /* this is the function for task 4 ||| This function substitutes an array in this case, the QWERTY key and substitutes the elements in the QWERTY array with ones along the alphabet. in this case the encrypted word OYDDH to the decryption "HELLO".  
+The return value is the sentence that was decrypted from this function. "HELLO"
+The function decrypts a sentence or word to its original in english langauage.
+As far as im aware there are no limitations of this function, and there should be no issues as the array that controls the string value does not have a certain length. */
+
+{
+    int i=0, m=0; // using 2 array counters as there are two arrays 
+    char subkey; // this substitution key is used for convenience and is unique to this task as the key counter m 
+    for(i=0; sentenceT4[i]!=0; i++)
+    {
+        
+        if(sentenceT4[i]==32)
+        {
+            
+        }
+       else if((sentenceT4[i]>='A' || sentenceT4[i]<='Z')) //
+       {
+           for(m=0; keyT4[m]!=sentenceT4[i]; m++)
+           {
+               
+              subkey=m; // this is a vital line as if the counter key m is not equal to its oppsite; i, the translation and substitutional cipher will not give the original expression.
+               
+           }
+         subkey =m + 65; // this allows the key array to be equal to the counter i in the alphabet
+         printf("%c", subkey); // this will print the original sentence as subkey is now the string
+         
+       } 
+    
+           else
+           {
+             printf("%c", sentenceT4[i]); // this will print the original sentence
+         
+           }
+        
+        
+    }
+    
+    
+}
+char RotC(char *sentenceT5) /* the function for task 5 ||| This function decrypts the paragraph on blackboard that commands a rotational cypher.
+  this return value returns the decrypted sentence to the main function.
+  The inputs are the encrypted message on blackboard
+  there are limitations as the sizeof function does not translate through fcunctions and therefore the characters must be counted so the rotation cipher rotates the correct amount of characters.*/ 
+{
+    
+    int i=0, keyT5=19; // intialising the key as 19 so it rotates along the alphabet 19 times 
+for(i=0 ; i<511 ; i++) // i is less then 511 as that is the amount of characters in the paragraph so it doesnt increment over the amount of character.
+     {
+         if(sentenceT5[i]==32){
+             
+         }
+         
+         else if (sentenceT5[i]+keyT5>'Z') {
+             sentenceT5[i]= sentenceT5[i]+keyT5-26 ; 
+              
+         }
+        else 
+            {
+            sentenceT5[i] = sentenceT5[i] + keyT5;
+            }
+         
+         
+     }
+    printf("%s\n", sentenceT5) ; 
+ 
+
+return *sentenceT5; // returning sentenceT5 to main
+}
+
+char RotD(char *sentenceT6) /* the function for the rotating "THE" task. ||| This function has been rushed as it was only known a few hours before submittion. This function rotates "THE" to see the most likely results that will take its form (ie a list of words that might have been rotated from "THE").
+  this return value returns the sentence, or in this case the word "THE" rotated along the alphabet
+  There are limitations to this function as it does not print all the charcaters that could be decrypted to THE, but one. so the key has to be changed each time it is used. Other then that it should work fine.*/ 
+{
+    
+int i=0, keyT6=1; // i is initialised to count the elements of the array as it is incremented
+
+   for (i=0 ; i<3 ; i++ ) // i<3 as THE has 3 characters. 
+   {
+   
+     {
+         if(sentenceT6[i]==32)
+         {
+             
+         }
+         
+          if (sentenceT6[i]+keyT6>'Z') 
+           {
+             sentenceT6[i]= sentenceT6[i]+keyT6-26 ; 
+              
+           }
+        else 
+              {
+            sentenceT6[i] = (sentenceT6[i] + keyT6);
+            
+              }
+         
+     }
+   
+   }
+      printf("%s\n", sentenceT6) ;
+      
+     
+
+         
+return *sentenceT6; 
+}
+
+//END
+/*Program flow is controlled depending on what task the user wants to see. The switch statements at the start are used to control whether or not the following lines will be executed.
+depending on whether or not the user wants to see the ciphers or not. this is why there are break statements. so lines are not executed after the command. Further once the user has 
+chasen a task the compiler will execute the printf statements and when the function is called, the flow control will jump to the function definition and then back once there is a return value.*/ 
+     
